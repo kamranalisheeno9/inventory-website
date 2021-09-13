@@ -28,11 +28,34 @@ const Login = (props) => {
   const [password, setPassword] = useState("")
   const [number, setNumber] = useState("")
   const [address, setAddress] = useState("")
+  const [displaySubmit, setDisplaySubmit] = useState(false)
+ 
+  const submitTrue=()=>{
+    alert("Successfully Submitted")
 
+      setHistoryUrl(true) 
+      setDisplaySignUp(false)
+      setDisplaySignIn(true)
+      setEmail("")
+      setPassword("")
+      setNumber("")
+      setAddress("")
+
+  }
+
+  const submit=()=>{
+    {email == "" || password == "" || number == "" || address == "" ? 
+    alert("Please Fill The Form Completely")
+    
+    :
+    submitTrue()
+  }
+  }
 
   const signUp = () => {
     setDisplaySignUp(true)
     setDisplaySignIn(false)
+    setDisplaySubmit(true)
   }
 
   const signIn = () => {
@@ -40,12 +63,13 @@ const Login = (props) => {
     setDisplaySignUp(false)
     setDisplaySignIn(true)
     handleOnClick()
+    props.setDisplay(true)
 
   }
   return (
     <Router>
     
-    <Container fluid>
+    <Container fluid className={`${props.display ? "hidden":""}`}  >
       <Row className="main-container">
         <Col >
           <div className="form-container">
@@ -68,11 +92,9 @@ const Login = (props) => {
                 </InputGroup>.
               </Form.Group>
               <div className="btns">
-                {/* <Link to="/dashboard"> */}
                 <Button  variant="warning" onClick={() => signIn()} >
                   Sign In
                 </Button>
-                {/* </Link> */}
                 <Button variant="warning" onClick={() => signUp()}>
                   Sign Up
                 </Button>
@@ -114,6 +136,11 @@ const Login = (props) => {
               
               </Form.Group>
               <div className="btns">
+              <Button variant="warning" onClick={() => submit()} >
+                  Submit
+                </Button>
+             </div>
+              <div className={` btns ${displaySubmit ? "hidden":""}`}>
                 <Button variant="warning" onClick={() => signIn()} >
                   Sign In
                 </Button>

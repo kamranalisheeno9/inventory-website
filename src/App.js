@@ -1,4 +1,5 @@
 import './App.css';
+import { useState } from "react";
 import MainPage from './pages/mainpage'
 import Login from './pages/login.js'
 import {
@@ -8,6 +9,8 @@ import {
   Link
 } from "react-router-dom";
 function App() {
+
+  const [displayLogin,setDisplayLogin]=useState(false)
   return (
     <Router>
 
@@ -15,11 +18,10 @@ function App() {
 
     <div className="App">
       <Route path="/dashboard">
-
-      <MainPage />
+      <MainPage display={displayLogin} setDisplay={setDisplayLogin} />
 </Route>
       <Route  path="/">
-        <Login />
+        <Login display={displayLogin} setDisplay={setDisplayLogin} />
       </Route>
     </div>
 </Switch>

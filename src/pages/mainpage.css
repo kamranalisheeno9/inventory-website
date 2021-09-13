@@ -38,7 +38,7 @@
 }
 .products{
     background-color: #EDF0F5;
-    height: 92.5vh;
+    min-height: 92.5vh;
 }
 .products-list{
     list-style: none;
@@ -126,4 +126,27 @@
     color: black !important;
 
 
+}
+.products-list-names{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+
+}
+.products-list-names li{
+    padding: 10px 20px;
+    cursor: pointer;
+    color: rgb(196, 196, 196);
+    text-transform: uppercase;
+}
+.products-list-names li:hover{
+    color: rgb(158, 158, 158);
+
+
+}
+
+@media only screen and (max-width:576px) {
+    .products-list-names{
+        display: none !important;
+    }
 }

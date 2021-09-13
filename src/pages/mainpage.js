@@ -1,6 +1,6 @@
 import './mainpage.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import react, { useState, useCallback } from 'react'
+import react, { useState, useEffect } from 'react'
 import { AiOutlineDashboard } from 'react-icons/ai';
 import { CgProfile } from 'react-icons/cg';
 import { BsBag } from 'react-icons/bs';
@@ -8,14 +8,12 @@ import { FiLogOut } from 'react-icons/fi';
 import { Navbar, Container, Col, Table, Row, Card, Button, Modal } from 'react-bootstrap';
 import MyVerticallyCenteredModal from './add-modal'
 import MyVerticallyCenteredModal2 from './add-modal2'
-import { useHistory } from 'react-router-dom';
 
-const MainPage = () => {
+const MainPage = (props) => {
 
-
-  const loginPage = useHistory();
-
-  const handleOnClick = useCallback(() => loginPage.push('/'), [loginPage]);
+  useEffect(() => {
+    props.setDisplay(true)
+  });
 
   const [inputItem, setInputItem] = useState("");
   const [modalShow, setModalShow] = useState(false);
@@ -24,7 +22,6 @@ const MainPage = () => {
   const [productName, setProductName] = useState("")
   const [productTag, setProductTag] = useState("")
   const [selectedProduct, setSelectedProduct] = useState()
-  // const [addItem, setaddItem] = useState([{list:[],}])
   const [showMaterial, setshowMaterial] = useState(false)
   const [productNumber, setProductNumber] = useState(0)
 
@@ -37,6 +34,7 @@ const MainPage = () => {
     if (productName === "" || productTag === "") {
       alert("Please Fill The Form")
       setProductName("")
+      setProductTag("")
 
       setModalShow(true)
 
@@ -47,18 +45,13 @@ const MainPage = () => {
     setModalShow(false)
     setProductName("")
     setProductTag("")
+    
   }
 
 
-  // const [itemsList,setItemsList]=useState(addItem[productNumber].list)
   const addItemFunc = () => {
-    // itemsList.push(inputItem)
-    // setItemsList([...itemsList])
-    // console.log(addItem)
-    // console.log(inputItem)
 
     setModal2Show(false)
-    // setaddItem("")
   }
 
   const addMaterial = (sprod, i) => {
@@ -67,10 +60,6 @@ const MainPage = () => {
     setProductTag(sprod.tag)
     setshowMaterial(true)
     setProductNumber(i)
-    // console.log(productList)
-    // console.log(productNumber)
-    // console.log(addItem[i].list)
-
 
   }
 
@@ -94,7 +83,7 @@ const MainPage = () => {
             <Navbar.Text className="profile-name">
               <a > Profile Name</a>
             </Navbar.Text>
-            <a className="logout" onClick={() => handleOnClick()}> &nbsp; <FiLogOut /></a>
+            <a className="logout" href="/" > &nbsp; <FiLogOut /></a>
           </Navbar.Collapse>
         </Container>
       </Navbar>
@@ -105,6 +94,15 @@ const MainPage = () => {
         <Row>
           <Col sm={4} md={3} lg={2} className="dashboard">
             <a className="title-dashboard" onClick={() => dashboardFunc()}> <span ><AiOutlineDashboard /></span> Dashboard</a>
+            <ul className="products-list-names">
+              {productList.map((product,index)=>{
+                return(
+                  <li key={index} onClick={()=>addMaterial(product,index)}>
+                    Product {index+1}
+                  </li>
+                )
+              })}
+            </ul>
           </Col>
 
 
