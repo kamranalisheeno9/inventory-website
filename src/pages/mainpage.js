@@ -2,7 +2,7 @@ import './mainpage.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import react, { useState, useEffect } from 'react'
 import { AiOutlineDashboard } from 'react-icons/ai';
-import { CgProfile } from 'react-icons/cg';
+import { BiArrowBack } from 'react-icons/bi';
 import { BsBag } from 'react-icons/bs';
 import { FiLogOut } from 'react-icons/fi';
 import { Navbar, Container, Col, Table, Row, Card, Button, Modal } from 'react-bootstrap';
@@ -21,9 +21,11 @@ const MainPage = (props) => {
   const [productList, setProductList] = useState([])
   const [productName, setProductName] = useState("")
   const [productTag, setProductTag] = useState("")
+  const [productDetail, setProductDetail] = useState("")
+  const [productDetail2, setProductDetail2] = useState("")
   const [selectedProduct, setSelectedProduct] = useState()
   const [showMaterial, setshowMaterial] = useState(false)
-  const [productNumber, setProductNumber] = useState(0)
+  const [currentProductList, setcurrentProductList] = useState([])
 
   const dashboardFunc = () => {
     setshowMaterial(false)
@@ -31,11 +33,12 @@ const MainPage = (props) => {
 
 
   const addProduct = () => {
-    if (productName === "" || productTag === "") {
+    if (productName === "" || productTag === "" || productDetail === "" || productDetail2 === "") {
       alert("Please Fill The Form")
       setProductName("")
       setProductTag("")
-
+      setProductDetail("")
+      setProductDetail2("")
       setModalShow(true)
 
     }
@@ -45,27 +48,34 @@ const MainPage = (props) => {
     setModalShow(false)
     setProductName("")
     setProductTag("")
-    
+    setProductDetail("")
+      setProductDetail2("")
+
   }
 
 
   const addItemFunc = () => {
-
+    currentProductList.push(inputItem)
     setModal2Show(false)
+    setInputItem("")
   }
 
-  const addMaterial = (sprod, i) => {
+  const addMaterial = (sprod) => {
     setSelectedProduct(sprod)
     setProductName(sprod.name)
     setProductTag(sprod.tag)
     setshowMaterial(true)
-    setProductNumber(i)
+    setcurrentProductList(sprod.list)
+   
 
   }
 
   const currentProduct = {
     name: productName,
     tag: productTag,
+    detail:productDetail,
+    detail2:productDetail2,
+    list:[]
   }
 
 
@@ -83,7 +93,7 @@ const MainPage = (props) => {
             <Navbar.Text className="profile-name">
               <a > Profile Name</a>
             </Navbar.Text>
-            <a className="logout" href="/" > &nbsp; <FiLogOut /></a>
+            <a className="logout" href="/" > &nbsp; Logout <FiLogOut /></a>
           </Navbar.Collapse>
         </Container>
       </Navbar>
@@ -97,7 +107,7 @@ const MainPage = (props) => {
             <ul className="products-list-names">
               {productList.map((product,index)=>{
                 return(
-                  <li key={index} onClick={()=>addMaterial(product,index)}>
+                  <li key={index} onClick={()=>addMaterial(product)}>
                     Product {index+1}
                   </li>
                 )
@@ -112,8 +122,11 @@ const MainPage = (props) => {
 
             {/* ADD PRODUCT MATERIAL */}
 
-            <div className="add-product">
+            <div className="add-product-inner">
+              <div className="back-arrow">
 
+              <BiArrowBack onClick={() => dashboardFunc()} />
+              </div>
 
 
               <Button variant="primary" className="add-product-btn" onClick={() => setModal2Show(true)}>
@@ -148,7 +161,7 @@ const MainPage = (props) => {
                 <tbody>
 
 
-                  {/* {addItem[productNumber].list.map((listitem,index)=>{
+                  {currentProductList.map((listitem,index)=>{
               return(
                 <>
                 <tr key={index} className="key">
@@ -163,7 +176,7 @@ const MainPage = (props) => {
 </>
               )
             }) }
-           */}
+          
 
 
                 </tbody>
@@ -192,6 +205,10 @@ const MainPage = (props) => {
                 tagChange={setProductTag}
                 name={productName}
                 tag={productTag}
+                setdetail={setProductDetail}
+                setdetail2={setProductDetail2}
+                detail={productDetail}
+                detail2={productDetail2}
                 addFunc={() => addProduct()}
               />
 
@@ -211,11 +228,15 @@ const MainPage = (props) => {
                         <div className="title-icon">
 
                           <Card.Title className="product-title">{product.name}</Card.Title>
+                        
                           <Card.Text className="product-icon">
                             <BsBag />
                           </Card.Text>
                         </div>
-
+                      <div className="product-detail-container">
+                      <Card.Title className="product-detail">{product.detail}</Card.Title>
+                          <Card.Title className="product-detail">{product.detail2}</Card.Title>
+                      </div>
                         <Button className="product-btn" variant="warning" onClick={() => addMaterial(product, index)}>Add Material</Button>
                       </Card.Body>
                     </Card>

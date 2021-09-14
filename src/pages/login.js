@@ -56,6 +56,8 @@ const Login = (props) => {
     setDisplaySignUp(true)
     setDisplaySignIn(false)
     setDisplaySubmit(true)
+    setEmail("")
+    setPassword("")
   }
 
   const signIn = () => {
@@ -64,6 +66,15 @@ const Login = (props) => {
     setDisplaySignIn(true)
     handleOnClick()
     props.setDisplay(true)
+    setEmail("")
+    setPassword("")
+
+  }
+  const signInPage = () => {
+    setDisplaySignUp(false)
+    setDisplaySignIn(true)
+    setEmail("")
+    setPassword("")
 
   }
   return (
@@ -71,7 +82,7 @@ const Login = (props) => {
     
     <Container fluid className={`${props.display ? "hidden":""}`}  >
       <Row className="main-container">
-        <Col >
+        <Col className="signin" >
           <div className="form-container">
             <Form className={`${displaySignIn ? "" : "hidden"}`}>
               <h2 className="login-title">Sign In</h2>
@@ -92,10 +103,10 @@ const Login = (props) => {
                 </InputGroup>.
               </Form.Group>
               <div className="btns">
-                <Button  variant="warning" onClick={() => signIn()} >
+                <Button  variant="primary" onClick={() => signIn()} >
                   Sign In
                 </Button>
-                <Button variant="warning" onClick={() => signUp()}>
+                <Button variant="primary" onClick={() => signUp()}>
                   Sign Up
                 </Button>
               </div>
@@ -136,15 +147,18 @@ const Login = (props) => {
               
               </Form.Group>
               <div className="btns">
-              <Button variant="warning" onClick={() => submit()} >
+              <Button variant="primary" onClick={() => signInPage()} >
+              Goto SignIn
+                </Button>
+              <Button variant="primary" onClick={() => submit()} >
                   Submit
                 </Button>
              </div>
               <div className={` btns ${displaySubmit ? "hidden":""}`}>
-                <Button variant="warning" onClick={() => signIn()} >
+                <Button variant="primary" onClick={() => signIn()} >
                   Sign In
                 </Button>
-                <Button variant="warning" onClick={() => signUp()} >
+                <Button variant="primary" onClick={() => signUp()} >
                   Sign Up
                 </Button>
               </div>
